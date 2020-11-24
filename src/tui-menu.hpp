@@ -20,20 +20,25 @@ int freeMenu(MENU *menu);
 
 using WindowPtr = std::unique_ptr<WINDOW, Destroy<WINDOW, &delwin>>;
 using MenuPtr = std::unique_ptr<MENU, Destroy<MENU, &freeMenu>>;
-using ItemPtr = std::unique_ptr<ITEM, Destroy<ITEM, &free_item>>;
 
 class TUISelector
 {
     public:
-        void init();
+        TUISelector() {}
+
+        void render();
+        void close();
         bool shouldClose();
 
-        void addOption(std::string name,std::string description);
+        void addOption(const char *option);
 
         bool waitForAction(std::string &selected);
+
+        ~TUISelector();
     private:
         bool shouldclose = false;
-        std::vector<ItemPtr> entries;
+        std::vector<const char *> options;
+        std::vector<ITEM *> items;
 
         WindowPtr menuwindow;
         MenuPtr menu;
@@ -41,10 +46,11 @@ class TUISelector
         WindowPtr helpwindow;
 
         WindowPtr createWindow(int x, int y, int width, int height);
+        void removeItems();
 
         std::vector<std::string> helpmessage =
             {"Use arrows, PGUP and PGDOWN to move in the view.",
              "Use Enter to select the option.",
-             "Use Q or ESC to exit."};
+             "Use F1 or ESC to exit."};
         
 };

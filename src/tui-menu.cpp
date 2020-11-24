@@ -14,61 +14,86 @@ WindowPtr TUISelector::createWindow(int x, int y, int width, int height)
     return win;
 }
 
-void TUISelector::init()
+void TUISelector::removeItems()
 {
+    for (auto item : items)
+    {
+        if (item) free_item(item);
+    }
+    items.clear();
+}
+
+void TUISelector::render()
+{
+    close();
+
     initscr();
-    noecho();
+    start_color();
     cbreak();
+    noecho();
+    curs_set(0);
     keypad(stdscr, TRUE);
 
-    std::vector<ITEM *> items;
+    for (auto option : options)
+    {
+        items.push_back(new_item(option, ""));
+    }
 
+    int lines = 0;
+    int cols = 0;
+    getmaxyx(stdscr, lines, cols);
     helpwindow = createWindow(
             0,
-            LINES - (helpmessage.size() + 2),
-            COLS,
+            lines - (helpmessage.size() + 2),
+            cols,
             helpmessage.size() + 2
     );
-
-    for (auto &item : entries)
-    {
-        items.push_back(item.get());
-    }
 
     menu = MenuPtr(new_menu(items.data()));
 
     menuwindow = createWindow(
         0,
         0,
-        COLS,
-        LINES - (helpmessage.size() + 3)
+        cols,
+        lines - (helpmessage.size() + 3)
     );
 
     keypad(menuwindow.get(), TRUE);
 
     set_menu_win(menu.get(), menuwindow.get());
-
-    set_menu_format(menu.get(), LINES - (helpmessage.size() + 5), 15);
+    int menuwindowx = 0;
+    int menuwindowy = 0;
+    getmaxyx(menuwindow.get(), menuwindowy, menuwindowx);
+    set_menu_sub(menu.get(), derwin(menuwindow.get(), menuwindowy - 2, menuwindowx - 1, 1, 1));
+    set_menu_format(menu.get(), menuwindowy - 2, 1);
 
     set_menu_mark(menu.get(), " > ");
 
     box(menuwindow.get(), 0, 0);
     box(helpwindow.get(), 0, 0);
 
-    mvwaddch(menuwindow.get(), 2, 0, ACS_LTEE);
-    mvwhline(menuwindow.get(), 2, 1, ACS_HLINE, 38);
-    mvwaddch(menuwindow.get(), 2, 0, ACS_RTEE);
-    refresh();
-
     for (unsigned int i = 0; i < helpmessage.size(); i++)
     {
         mvwprintw(helpwindow.get(), i + 1, 1, helpmessage[i].c_str());
     }
     
+    refresh();
+
     wrefresh(helpwindow.get());
 
     post_menu(menu.get());
     wrefresh(menuwindow.get());
+}
+
+void TUISelector::close()
+{
+    refresh();
+    clear();
+    menuwindow.release();
+    helpwindow.release();
+    menu.release();
+
+    removeItems();
 }
 
 bool TUISelector::shouldClose()
@@ -76,9 +101,9 @@ bool TUISelector::shouldClose()
     return shouldclose;
 }
 
-void TUISelector::addOption(std::string name, std::string description)
+void TUISelector::addOption(const char *option)
 {
-    entries.push_back(ItemPtr(new_item(name.c_str(), description.c_str())));
+    options.push_back(option);
 }
 
 bool TUISelector::waitForAction(std::string &selected)
@@ -98,13 +123,27 @@ bool TUISelector::waitForAction(std::string &selected)
             menu_driver(menu.get(), REQ_SCR_UPAGE);
             return false;
         case KEY_RESIZE:
-            return false;
+            {
+                close();
+                endwin();
+                render();
+                wrefresh(menuwindow.get());
+                wrefresh(helpwindow.get());
+                return false;
+            }
         case KEY_F(1):
         case 27:
+        case KEY_EXIT:
         case 133:
             shouldclose = true;
             return false;
     }
-    wrefresh(menuwindow.get());
+    refresh();
     return false;
+}
+
+TUISelector::~TUISelector()
+{
+    close();
+    removeItems();
 }
