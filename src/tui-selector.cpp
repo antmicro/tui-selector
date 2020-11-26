@@ -1,37 +1,42 @@
 #include <tui-menu.hpp>
+#include <selector-parser.hpp>
 
-int main()
+int main(int argc, char *argv[])
 {
     auto selector = std::unique_ptr<TUISelector>(new TUISelector());
     
-    selector->addOption("image01");
-    selector->addOption("image02");
-    selector->addOption("image03");
-    selector->addOption("image04");
-    selector->addOption("image05");
-    selector->addOption("image06");
-    selector->addOption("image07");
-    selector->addOption("image08");
-    selector->addOption("image09");
-    selector->addOption("image10");
-    selector->addOption("image11");
-    selector->addOption("image12");
-    selector->addOption("image13");
-    selector->addOption("image14");
-    selector->addOption("image15");
-    selector->addOption("image16");
-    selector->addOption("image17");
-    selector->addOption("image18");
-    selector->addOption("image19");
+    auto selpar = SelectorParser(argv[1]);
+    int res = selpar.loadRules(false);
+    if (res)
+    {
+        return res;
+    }
+    res = selpar.findEntries();
+    if (res)
+    {
+        return res;
+    }
+
+    for (auto &option : selpar.getOptions())
+    {
+        selector->addOption(option.c_str());
+    }
 
     selector->render();
+
+    std::string option = "";
     while (!selector->shouldClose())
     {
-        std::string option = "";
-        selector->waitForAction(option);
+        if (selector->waitForAction(option))
+        {
+            break;
+        }
     }
 
     selector.release();
     endwin();
+
+    printf("selected option:  %s\n", option.c_str());
+
     return 0;
 }
