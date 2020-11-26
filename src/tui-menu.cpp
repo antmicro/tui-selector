@@ -110,38 +110,42 @@ void TUISelector::addOption(const char *option)
 
 bool TUISelector::waitForAction(std::string &selected)
 {
+    bool isselected = false;
     switch (wgetch(menuwindow.get()))
     {
         case KEY_DOWN:
             menu_driver(menu.get(), REQ_DOWN_ITEM);
-            return false;
+            break;
         case KEY_UP:
             menu_driver(menu.get(), REQ_UP_ITEM);
-            return false;
+            break;
         case KEY_NPAGE:
             menu_driver(menu.get(), REQ_SCR_DPAGE);
-            return false;
+            break;
         case KEY_PPAGE:
             menu_driver(menu.get(), REQ_SCR_UPAGE);
-            return false;
+            break;
         case KEY_RESIZE:
-            {
-                close();
-                endwin();
-                render();
-                wrefresh(menuwindow.get());
-                wrefresh(helpwindow.get());
-                return false;
-            }
+            close();
+            endwin();
+            render();
+            break;
         case KEY_F(1):
         case 27:
         case KEY_EXIT:
         case 133:
             shouldclose = true;
-            return false;
+            break;
+        case 10: /* Enter */
+            selected = item_name(current_item(menu.get()));
+            isselected = true;
+            pos_menu_cursor(menu.get());
+            break;
     }
+    wrefresh(menuwindow.get());
+    wrefresh(helpwindow.get());
     refresh();
-    return false;
+    return isselected;
 }
 
 TUISelector::~TUISelector()
