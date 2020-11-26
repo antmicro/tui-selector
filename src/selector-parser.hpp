@@ -21,8 +21,13 @@ class SelectorParser
     public:
         SelectorParser(std::string jsondir);
 
-        int loadRules();
+        int loadRules(bool allowfailure);
+        int findEntries();
+        std::vector<std::string>& getOptions();
     private:
         std::filesystem::path jsondir;
         std::vector<SelectorRule> selectorrules;
+
+        std::map<std::string, std::string> selectorentries;
+        std::vector<std::string> entrynames;
 };
