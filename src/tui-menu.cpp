@@ -66,7 +66,7 @@ void TUISelector::render()
     int menuwindowx = 0;
     int menuwindowy = 0;
     getmaxyx(menuwindow.get(), menuwindowy, menuwindowx);
-    set_menu_sub(menu.get(), derwin(menuwindow.get(), menuwindowy - 2, menuwindowx - 1, 1, 1));
+    set_menu_sub(menu.get(), derwin(menuwindow.get(), menuwindowy - 2, menuwindowx - 2, 1, 1));
     set_menu_format(menu.get(), menuwindowy - 2, 1);
 
     set_menu_mark(menu.get(), " > ");
