@@ -116,3 +116,8 @@ std::vector<std::string>& SelectorParser::getOptions()
 {
     return entrynames;
 }
+
+std::string SelectorParser::getCommand(std::string option)
+{
+    return selectorentries[option];
+}

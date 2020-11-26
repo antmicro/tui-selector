@@ -36,7 +36,10 @@ int main(int argc, char *argv[])
     selector.release();
     endwin();
 
-    printf("selected option:  %s\n", option.c_str());
+    if (option != "")
+    {
+        system(selpar.getCommand(option).c_str());
+    }
 
     return 0;
 }
