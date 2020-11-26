@@ -15,6 +15,7 @@ include_directories(
 
 add_executable(${PROJECT_NAME}
     src/tui-menu.cpp
+    src/selector-parser.cpp
     src/tui-selector.cpp
 )
 add_dependencies(${PROJECT_NAME} rapidjson)
