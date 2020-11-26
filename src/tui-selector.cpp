@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
 
     if (option != "")
     {
-        system(selectorparser.getCommand(option).c_str());
+        return system(selectorparser.getCommand(option).c_str());
     }
 
     return 0;
