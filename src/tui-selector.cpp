@@ -1,23 +1,51 @@
 #include <tui-menu.hpp>
 #include <selector-parser.hpp>
+#include <cxxopts.hpp>
 
 int main(int argc, char *argv[])
 {
+    std::string rulesdirectory = "";
+    bool allowfailure = false;
+
+    cxxopts::Options options(argv[0], "Executable TUI selector");
+
+    options.add_options()
+        ("rules_directory", "Path to the directory with JSON rules files", cxxopts::value<std::string>(rulesdirectory))
+        ("allow-failure", "Ignore invalid entries in JSON rules files", cxxopts::value<bool>(allowfailure))
+        ("h,help", "Show help");
+
+    options.parse_positional({"rules_directory"});
+    options.positional_help("RULES_DIRECTORY");
+
+    auto result = options.parse(argc, argv);
+
+    if (result.count("help"))
+    {
+        printf("%s\n", options.help().c_str());
+        return 0;
+    }
+
     auto selector = std::unique_ptr<TUISelector>(new TUISelector());
     
-    auto selpar = SelectorParser(argv[1]);
-    int res = selpar.loadRules(false);
+    if (rulesdirectory.empty())
+    {
+        printf("rules_directory is not provided!\n%s\n", options.help().c_str());
+        return 1;
+    }
+
+    auto selectorparser = SelectorParser(rulesdirectory);
+    int res = selectorparser.loadRules(allowfailure);
     if (res)
     {
         return res;
     }
-    res = selpar.findEntries();
+    res = selectorparser.findEntries();
     if (res)
     {
         return res;
     }
 
-    for (auto &option : selpar.getOptions())
+    for (auto &option : selectorparser.getOptions())
     {
         selector->addOption(option.c_str());
     }
@@ -38,7 +66,7 @@ int main(int argc, char *argv[])
 
     if (option != "")
     {
-        system(selpar.getCommand(option).c_str());
+        system(selectorparser.getCommand(option).c_str());
     }
 
     return 0;
