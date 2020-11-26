@@ -34,10 +34,12 @@ void TUISelector::render()
     curs_set(0);
     keypad(stdscr, TRUE);
 
+    items.clear();
     for (auto option : options)
     {
         items.push_back(new_item(option, ""));
     }
+    items.push_back(NULL);
 
     int lines = 0;
     int cols = 0;
