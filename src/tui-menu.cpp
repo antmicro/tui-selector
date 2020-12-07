@@ -183,6 +183,18 @@ bool TUISelector::waitForAction(std::string &selected)
     return isselected;
 }
 
+void TUISelector::setTimeout(int timeoutval)
+{
+    if (timeoutval <= 0)
+    {
+        actionnoticed = true;
+    }
+    else
+    {
+        currtimeout = timeoutval;
+    }
+}
+
 TUISelector::~TUISelector()
 {
     close();

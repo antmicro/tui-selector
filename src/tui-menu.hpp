@@ -67,6 +67,14 @@ class TUISelector
          */
         bool waitForAction(std::string &selected);
 
+        /**
+         * Sets timeout for the GUI.
+         *
+         * Set value to less or equal to 0 for no timeout.
+         *
+         * @param timeoutval the number of seconds to wait for user action
+         */
+        void setTimeout(int timeoutval);
         ~TUISelector();
     private:
         int currtimeout = 3; ///<seconds before automatic action

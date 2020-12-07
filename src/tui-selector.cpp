@@ -6,12 +6,14 @@ int main(int argc, char *argv[])
 {
     std::string rulesdirectory = "";
     bool allowfailure = false;
+    int timeout = 3;
 
     cxxopts::Options options(argv[0], "Executable TUI selector");
 
     options.add_options()
         ("rules_directory", "Path to the directory with JSON rules files", cxxopts::value<std::string>(rulesdirectory))
         ("allow-failure", "Ignore invalid entries in JSON rules files", cxxopts::value<bool>(allowfailure))
+        ("timeout", "Set timeout for user action (negative value for no timeout", cxxopts::value<int>(timeout))
         ("h,help", "Show help");
 
     options.parse_positional({"rules_directory"});
@@ -50,6 +52,7 @@ int main(int argc, char *argv[])
         selector->addOption(option.c_str());
     }
 
+    selector->setTimeout(timeout);
     selector->render();
 
     std::string option = "";
