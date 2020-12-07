@@ -69,6 +69,8 @@ class TUISelector
 
         ~TUISelector();
     private:
+        int currtimeout = 3; ///<seconds before automatic action
+        bool actionnoticed = false; ///<true if any keyboard movement was detected
         bool shouldclose = false; ///<tells if window should be closed
         std::vector<const char *> options; ///<vector of available options
         std::vector<ITEM *> items; ///<menu entries
@@ -92,7 +94,8 @@ class TUISelector
 
         /// help message for the TUI menu
         std::vector<std::string> helpmessage =
-            {"Use arrows, PGUP and PGDOWN to move in the view.",
+            {"",
+             "Use arrows, PGUP and PGDOWN to move in the view.",
              "Use Enter to select the option.",
              "Use F1 or ESC to exit."};
         
