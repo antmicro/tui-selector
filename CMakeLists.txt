@@ -21,3 +21,5 @@ add_executable(${PROJECT_NAME}
 add_dependencies(${PROJECT_NAME} rapidjson)
 target_link_libraries(${PROJECT_NAME} ${CURSES_LIBRARY} ${MENU_LIBRARY} rapidjson)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
+
+install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
