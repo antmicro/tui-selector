@@ -171,8 +171,16 @@ bool TUISelector::waitForAction(std::string &selected)
                 currtimeout--;
                 if (currtimeout == 0)
                 {
-                    selected = options[0];
-                    isselected = true;
+                    if (options.size() > 0)
+                    {
+                        selected = options[0];
+                        isselected = true;
+                    }
+                    else
+                    {
+                        actionnoticed = true;
+                        shouldclose = true;
+                    }
                 }
             }
             break;
