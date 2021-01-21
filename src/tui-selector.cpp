@@ -47,6 +47,11 @@ int main(int argc, char *argv[])
         return res;
     }
 
+    if (selectorparser.getOptions().size() == 0)
+    {
+        return 0;
+    }
+
     for (auto &option : selectorparser.getOptions())
     {
         selector->addOption(option.c_str());
