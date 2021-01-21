@@ -74,6 +74,7 @@ int main(int argc, char *argv[])
 
     if (option != "")
     {
+        printf("Running: %s\n", selectorparser.getCommand(option).c_str());
         return system(selectorparser.getCommand(option).c_str());
     }
 
