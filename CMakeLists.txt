@@ -12,6 +12,7 @@ include_directories(
     ${CURSES_INCLUDE_DIR}
     ${RapidJSON_INCLUDE_DIR}
     src/
+    third-party/include/
 )
 
 add_executable(${PROJECT_NAME}
