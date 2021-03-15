@@ -9,10 +9,10 @@
 struct SelectorRule
 {
     SelectorRule(
-        std::string searchdirectory,
-        std::string regex,
-        std::string command,
-        std::string entryformat);
+        const std::string &searchdirectory,
+        const std::string &regex,
+        const std::string &command,
+        const std::string &entryformat);
     std::filesystem::path searchdirectory; ///< path where the files are located
     std::regex regex; ///< filter for files in search directory
     std::string command; ///< a command to be executed for a given file
@@ -25,7 +25,12 @@ struct SelectorRule
 class SelectorParser
 {
     public:
-        SelectorParser(std::string jsondir);
+        /**
+         * Constructs the parser.
+         *
+         * @param jsondir path to the directory with JSON files
+         */
+        SelectorParser(const std::string &jsondir);
 
         /**
          * Loads rules from JSON files located in jsondir.

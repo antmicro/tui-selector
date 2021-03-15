@@ -6,10 +6,10 @@
 #include <fstream>
 
 SelectorRule::SelectorRule(
-        std::string searchdirectory,
-        std::string regex,
-        std::string command,
-        std::string entryformat) :
+        const std::string &searchdirectory,
+        const std::string &regex,
+        const std::string &command,
+        const std::string &entryformat) :
     searchdirectory(searchdirectory),
     regex(regex),
     command(command),
@@ -17,7 +17,7 @@ SelectorRule::SelectorRule(
 {
 }
 
-SelectorParser::SelectorParser(std::string jsondir) :
+SelectorParser::SelectorParser(const std::string &jsondir) :
     jsondir(jsondir)
 {
 }

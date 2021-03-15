@@ -1,3 +1,4 @@
+#include <iterator>
 #include <tui-menu.hpp>
 
 int freeMenu(MENU *menu)
