@@ -1,5 +1,7 @@
 # TUI selector
 
+Copyright (c) 2020-2021 [Antmicro](https://www.antmicro.com)
+
 This is a simple TUI menu that looks for files described by regular expressions in JSON rules files and produces menu entries from which the commands specified for found files can be executed.
 
 ## Building the project
