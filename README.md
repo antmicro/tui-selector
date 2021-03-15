@@ -2,7 +2,7 @@
 
 Copyright (c) 2020-2021 [Antmicro](https://www.antmicro.com)
 
-This is a simple TUI menu that looks for files described by regular expressions in JSON rules files and produces menu entries from which the commands specified for found files can be executed.
+This is a simple TUI menu that lists and runs applications based on rules written in JSON format.
 
 ## Building the project
 
@@ -15,7 +15,7 @@ In order to build it, run:
 
 ## Usage
 
-The `tui-selector` requires path `rules_directory` to a directory with JSON files that describe creation of entries.
+The `tui-selector` requires path to the directory with JSON files that describe filters and run commands.
 
 There can be multiple JSON files in the `rules_directory` directory.
 
@@ -31,23 +31,24 @@ The JSON files should look like:
         ...
     ]
 
-Where:
+The root of the JSON file is the list of rules.
+Each rule is a dictionary with four attributes, where:
 
-* `searchdirectory` tells where are the files or executables to be used for the menu entries,
+* `searchdirectory` tells where are the files or executables to be used as the menu entries,
 * `regex` holds the regular expression by which the files in `searchdirectory` should be filtered,
-* `command` contains the command to be executed upon entry selection,
+* `command` tells how the file or executable should be executed,
 * `entryformat` describes how the entry for a given file and rule should be displayed in TUI menu.
 
-Both `command` and `entryformat` are regex substitutions for `regex`.
+Both `command` and `entryformat` are regex substitutions for the `regex` attribute.
 This means that regex groups formed in `regex` can be accessed in `command` and `entryformat` by `$i`, where `i` is the ID of the group.
 
-For example, for regex `"(^.*)\\/(.*)\\.pdf$"` and string `/directory/lab1-presentation.pdf` the `entryformat` with value `Open document $2 (okular)` will create entry `Open document lab1-presentation (okular)`.
+For example, for regex `"(^.*)\\/(.*)\\.pdf$"` and string `/directory/lab1-presentation.pdf` the `entryformat` with value `Open document $2 (okular)` will create entry `Open document lab1-presentation (okular)` in the menu.
 
 ## Example
 
 Lets assume there are some images, videos, .txt or .pdf files in the Desktop directory.
 
-Create a `rules/` directory, and a `multimedia.json` file with the following content (replace user with your user name):
+Create a `rules/` directory, and a `rules/multimedia.json` file with the following content (replace user with your user name):
 
     [
         {
@@ -82,3 +83,10 @@ In the end, run:
 The view should look something like this:
 
 ![tui-example](example-view.png)
+
+The `tui-selector` also has a `--timeout <numseconds>` flag - with this flag the tool will select the default (first) option once the timeout specified in `<numseconds>` seconds is reached.
+
+## Licensing
+
+The sources are published under the Apache 2.0 License, except for files located in the `third-party/` directory.
+For those files the license is either enclosed in the file header or in a separate LICENSE file.
