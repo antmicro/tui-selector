@@ -44,7 +44,9 @@ This means that regex groups formed in `regex` can be accessed in `command` and 
 
 For example, for regex `"(^.*)\\/(.*)\\.pdf$"` and string `/directory/lab1-presentation.pdf` the `entryformat` with value `Open document $2 (okular)` will create entry `Open document lab1-presentation (okular)` in the menu.
 
-## Example
+## Examples of JSON rules
+
+The examples of JSON files with rules are in the [json-samples directory](./json-samples).
 
 Lets assume there are some images, videos, .txt or .pdf files in the Desktop directory.
 
@@ -76,9 +78,13 @@ Then, add a `document.json` file:
         }
     ]
 
-In the end, run:
+## Running `tui-selector`
 
-    tui-selector ./rules/
+Assuming the current directory is the root directory of the project, run:
+
+    tui-selector ./json-samples
+
+(if `tui-selector` is not installed but built, run `./build/tui-selector`)
 
 The view should look something like this:
 
