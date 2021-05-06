@@ -6,7 +6,7 @@ int main(int argc, char *argv[])
 {
     std::string rulesdirectory = "";
     bool allowfailure = false;
-    int timeout = 3;
+    int timeout = 0;
 
     cxxopts::Options options(argv[0], "Executable TUI selector");
 
