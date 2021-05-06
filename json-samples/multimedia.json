@@ -1,0 +1,14 @@
+[
+    {
+        "searchdirectory" : "../",
+        "regex" : "(^.*)\\/(.*\\.(jpg|png))$",
+        "command" : "firefox \"$1/$2\"",
+        "entryformat" : "Open $1/$2 with Firefox"
+    },
+    {
+        "searchdirectory" : "../",
+        "regex" : "(^.*)\\/(.*\\.(jpg|png))$",
+        "command" : "chromium \"$1/$2\"",
+        "entryformat" : "Open $1/$2 with Chromium"
+    }
+]

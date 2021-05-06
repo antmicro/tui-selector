@@ -1,0 +1,14 @@
+[
+    {
+        "searchdirectory" : "../src",
+        "regex" : "(^.*)\\/(.*)\\.hpp$",
+        "command" : "vim -O $1/$2.cpp $1/$2.hpp",
+        "entryformat" : "Edit $2 header"
+    },
+    {
+        "searchdirectory" : "../src",
+        "regex" : "(^.*)\\/tui-selector\\.cpp$",
+        "command" : "vim $1/tui-selector.cpp",
+        "entryformat" : "Edit tui-selector source"
+    }
+]

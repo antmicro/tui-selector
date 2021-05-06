@@ -1,0 +1,8 @@
+[
+    {
+        "searchdirectory" : "../",
+        "regex" : "(^.*)\\/CMakeLists\\.txt$",
+        "command" : "cd $1 && mkdir build-test && cd build-test && cmake .. && make -j`nproc`",
+        "entryformat" : "Build the project"
+    }
+]
