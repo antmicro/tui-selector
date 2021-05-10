@@ -2,11 +2,11 @@
 
 Copyright (c) 2020-2021 [Antmicro](https://www.antmicro.com)
 
-This is a simple TUI menu that lists and runs applications based on rules written in JSON format.
+This is a simple TUI menu that lists and runs applications based on rules written in the JSON format.
 
 ## Building the project
 
-Project requires `ncurses` library and a C++ compiler with C++17 support.
+The project requires `ncurses` library and a C++ compiler with C++17 support.
 In order to build it, run:
 
     mkdir build && cd build
@@ -15,11 +15,11 @@ In order to build it, run:
 
 ## Usage
 
-The `tui-selector` requires path to the directory with JSON files that describe filters and run commands.
+The `tui-selector` requires the path to the directory with JSON files that describe filters and run commands.
 
 There can be multiple JSON files in the `rules_directory` directory.
 
-The JSON files should look like:
+The JSON files should have the following structure:
 
     [
         {
@@ -32,12 +32,12 @@ The JSON files should look like:
     ]
 
 The root of the JSON file is the list of rules.
-Each rule is a dictionary with four attributes, where:
+Each rule is a dictionary with four attributes where:
 
-* `searchdirectory` tells where are the files or executables to be used as the menu entries,
+* `searchdirectory` says where the files or executables to be used as the menu entries are located,
 * `regex` holds the regular expression by which the files in `searchdirectory` should be filtered,
-* `command` tells how the file or executable should be executed,
-* `entryformat` describes how the entry for a given file and rule should be displayed in TUI menu.
+* `command` describes how the file or executable should be executed,
+* `entryformat` describes how the entry for a given file and rule should be displayed in the TUI menu.
 
 Both `command` and `entryformat` are regex substitutions for the `regex` attribute.
 This means that regex groups formed in `regex` can be accessed in `command` and `entryformat` by `$i`, where `i` is the ID of the group.
@@ -48,9 +48,9 @@ For example, for regex `"(^.*)\\/(.*)\\.pdf$"` and string `/directory/lab1-prese
 
 The examples of JSON files with rules are in the [json-samples directory](./json-samples).
 
-Lets assume there are some images, videos, .txt or .pdf files in the Desktop directory.
+Let's assume there are some images, videos, .txt or .pdf files in the Desktop directory.
 
-Create a `rules/` directory, and a `rules/multimedia.json` file with the following content (replace user with your user name):
+Create a `rules/` directory and a `rules/multimedia.json` file with the following content (replace user with your user name):
 
     [
         {
